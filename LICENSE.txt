@@ -1,0 +1,164 @@
+*** English translation is available in the latter of this file ***
+
+	「Juliusディクテーションキット」
+			利用許諾書
+
+  Copyright (c)   1991-2014 京都大学 河原研究室
+  Copyright (c)   2005-2014 名古屋工業大学 李研究室
+
+----------------------------------------------------------------------------
+
+「Juliusディクテーションキット」は、京都大学 河原研究室、及び名古屋工
+業大学 李研究室で開発されました。
+
+京都大学 河原研究室、及び名古屋工業大学 李研究室（以下あわせて「著作権
+者」と言う）は、著作者であり著作権を留保していますが、本利用条件の全て
+を受諾し遵守する限り、ソースコードを含む本プログラム及びドキュメンテー
+ション（以下あわせて「本ソフトウェア」と言う）を無償で提供します。あな
+たが本ソフトウェアを利用したときは、本利用条件の全てを受諾したものと看
+做されます。
+
+			【利用条件】
+
+(許諾事項)
+1. あなたは、本利用条件の全てを受諾し遵守する限り、本ソフトウェアの全
+部又は一部について使用、複製、翻案、変更、組込み、結合することおよびそ
+れらの複製物、翻案物、変更物等を配布、送信することができます。
+
+(著作権表示等)
+2. あなたは、本ソフトウェアの複製物、翻案物、変更物等の全部又は一部を
+第三者に提供するときは、上記の著作権表示及び本利用許諾書を添付しなけれ
+ばなりません。また、本ソフトウェアの全部又はその一部を変更してその複製
+物を第三者に提供するときは、本ソフトウェアを変更した旨、変更者及びその
+変更日を明確に表示するものとします。
+
+(成果発表等)
+3. 本ソフトウェアを利用して得られた知見に関して発表を行う際には、
+「Juliusディクテーションキット」を利用したことを明記して下さい。
+
+3-1. 本ソフトウェアに含まれている言語モデルは、国立国語研究所の『現代
+日本語書き言葉均衡コーパス』(BCCWJ)を利用して作成されたものです。この
+モデルを利用して得られた知見に関して発表を行う際には、その旨を明記して
+下さい。
+
+3-2. 本ソフトウェアに含まれている音響モデルは、日本音響学会の『新聞記
+事読み上げ音声コーパス』(JNAS)を使用して作成されたものです。
+
+(無保証)
+4. 本ソフトウェアについて、明示、黙示を問わず、いかなる国におけるいか
+なる利用であるかを問わず、また法令により生じるものであるかを問わず、一
+切の保証をしません。なお、ここにおいて排除されている保証には、本ソフト
+ウェアの品質、性能、商品性、特定目的適合性の保証のほか、本ソフトウェア
+の動作及び動作結果の正確性及び完全性の保証、本ソフトウェアの利用が第三
+者の有する権利（特許権、商標権等の無体財産権、営業秘密、その他の財産的
+権利を含むが、これらに限定されない）を侵害しないことの保証が含まれます。
+
+(損害に対する免責)
+5. 本ソフトウェアの利用又は利用不能に起因又は関連して生じた、通常損害
+若しくは直接的損害、特別損害、間接的損害、派生的損害、又は付随的損害、
+その他一切の損害（逸失利益、売上喪失、事業中断、データ損失等の経済的損
+失を含むが、これらに限定されない）について、当該損害の発生が瑕疵担保責
+任、故意又は過失による不法行為責任、製造物責任その他の無過失責任、契約
+又は保証の違反等、いかなる国のいかなる法律原因によるものであるかを問わ
+ず、また当該損害の発生が予見され又は予見されえた場合であっても、一切の
+賠償責任を負いません。
+
+(準拠法及び裁判管轄)
+6. 本ソフトウェアの利用に関しては、日本国の法律を準拠法とし、京都地方
+裁判所を第一審の専属管轄裁判所とします。
+
+(照会)
+7. 本ソフトウェアのメンテナンスやサポート、上記条件以外の利用等に関し
+ては、名古屋工業大学 Julius開発チーム、または京都大学 河原研究室に照会
+下さい。
+
+
+
+*** This is English translation of the Japanese original for reference ***
+
+
+	Julius Dictation Kit
+	License Agreement
+
+ Copyright (c) 1991-2014 Kawahara Lab., Kyoto University
+ Copyright (c) 2005-2014 Lee Lab., Nagoya Institute of Technology
+
+"Julius Dictation Kit" has been developed at Kawahara Lab., Kyoto
+University and Lee Lab., Nagoya Institute of Technology (collectively
+referred to herein as the "Licensers").
+
+The Licensers reserve the copyright thereto.  However, as long as you
+accept and remain in strict compliance with the terms and conditions
+of the license set forth herein, you are hereby granted a royalty-free
+license to use this software program including the source code thereof
+and the documentation thereto (collectively referred to herein as the
+"Software").  Use by you of the Software shall constitute acceptance
+by you of all terms and conditions of the license set forth herein.
+
+	      TERMS AND CONDITIONS OF LICENSE
+
+(Grant of License)
+1. So long as you accept and strictly comply with the terms and
+conditions of the license set forth herein, the Licensers will not
+enforce the copyright or moral rights in respect of the Software, in
+connection with the use, copying, duplication, adaptation,
+modification, preparation of a derivative work, aggregation with
+another program, or insertion into another program of the Software and
+the distribution or transmission of the Software.
+
+(Copyright Notice)
+2. In the event you provide to any third party all or any portion of
+the Software, you shall affix the above copyright notice and all terms
+and conditions of this license (both the Japanese original and English
+translation).  Moreover, in the event you revise all or any portion of
+the Software for distribution, a notice shall be affixed indicating
+that the Software has been revised, together with the revision date
+and the name of the person or entity that made the revision.
+
+(Publication)
+3. When you publish or present any results by using the Software, you
+must explicitly mention your use of "Julius Dictation Kit".
+
+3-1. The language model included in this Software has been developed
+by using the "Balanced Corpus of Contemporary Written Japanese
+(BCCWJ)" compiled and owned by the National Institute for Japanese
+Language and Linguistics.  When you publish or present any results by
+using the Software, you must explicitly mention this fact.
+
+3-2. The acoustic model included in this Software has been developed
+by using the "ASJ Continuous Speech Corpus -- Japanese Newspaper
+Article Sentences (JNAS)" compiled by the Acoustical Society of Japan.
+
+(Disclaimer of Warranty)
+4. The Licensers make no warranty of any kind and nature, whether
+express, implied or statutory on the Software and any matters relating
+thereto. THE LICENSERS SPECIFICALLY DISCLAIMS ALL IMPLIED WARRANTIES,
+DUTIES OR CONDITIONS, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY, OF FITNESS FOR A PARTICULAR PURPOSE, OF
+ACCURACY OR COMPLETENESS OF RESPONSES AND RESULTS, AND THAT THE USE OF
+THE SOFTWARE WILL NOT INFRINGE ANY PATENT, TRADEMARK, TRADE-SECRETS OR
+OTHER PROPRIETARY RIGHTS OF ANY THIRD PARTY.
+
+(No Liability)
+5. The Licensers shall not be liable to you for any general or direct,
+special, incidental, consequential or other indirect damages
+whatsoever (including, but not limited to, damages for loss of profits
+or savings) arising out of or in any way connected with the use of or
+inability to use the Software, or otherwise under or in connection
+with any provisions of this License, even in the event of the fault,
+tort (including negligence), misrepresentation, strict liability
+(including product liability), breach of contract or breach of
+warranty of the Licensers, and even if the Licensers has been advised
+of possibility of such damages.
+
+(Choice of Law and Exclusive Forum)
+6. This license of use of the Software shall be governed by the laws
+of Japan, and the Kyoto District Court shall have exclusive primary
+jurisdiction with respect to all disputes arising with respect
+thereto.
+
+(Contact)
+7. Inquiries about support or maintenance of the Software, or
+inquiries concerning the license of use besides the conditions above,
+may be sent to Julius project team, Nagoya Institute of Technology, or
+Kawahara Lab., Kyoto University.

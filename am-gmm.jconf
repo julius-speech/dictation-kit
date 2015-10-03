@@ -1,0 +1,11 @@
+##
+## ディクテーションキット GMM-HMM版音響モデル・入力設定
+##
+
+# 音響モデル: GMM-HMM
+-h model/phone_m/jnas-tri-3k16-gid.binhmm
+
+# 入力: マイク
+-input mic
+
+## EOF

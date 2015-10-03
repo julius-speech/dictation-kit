@@ -1,0 +1,11 @@
+##
+## ディクテーションキット DNN-HMM版音響モデル・入力設定
+##
+
+# 音響モデル: DNN-HMM
+-h model/dnn/hmmdefs.dnn
+
+# 入力: ネットワークからの特徴量入力
+-input vecnet
+
+## EOF
