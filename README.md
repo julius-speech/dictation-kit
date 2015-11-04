@@ -1,6 +1,6 @@
 # Julius Japanese Dictation-kit
 
-This is Japanese dictation toolkit based on Julius.  You can try live Japanese speech recognition, simply by getting this kit and execute the run script.
+This is Japanese dictation toolkit based on [Julius](https://github.com/julius-speech/julius).  You can try live Japanese speech recognition, simply by getting this kit and execute the run script.
 
 ## Requirement
 
