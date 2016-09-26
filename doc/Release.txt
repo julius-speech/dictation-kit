@@ -1,3 +1,28 @@
+4.4.1 (2016.09.07)
+===================
+- more stable and fast SIMD code: SSE, FMA and ARM_NEON
+- automatically select suitable SIMD code at run time for DNN computation
+- msvc support updated: PortAudio and zlib sources are now included in dist.
+- fix incorrect reading of binary hmmlist made by "mkbinhmmlist"
+- fix SDL detection in adintool-gui
+- "INSTALL.txt" to share how to build Julius on various platform.
+- pkg-config support
+- other fixes
+
+4.4 (2016.08.30)
+=================
+- DNN-HMM computation support
+- "adintool-gui": adintool with input monitoring (see adintool/README-GUI.txt)
+- "binlm2arpa": convert binary LM to ARPA format
+- "mkbingram" now can convert text encoding of an LM by "-c" option
+- fix not to exit at disconnection on module mode, wait for next instead.
+- fix compilation errors in some recent OS
+- fix memory leaks
+- work on autoconf >=2.6
+- added README.md, CONTRIBUTING.md and other files for GitHub hosting
+- added document to use Julius with DNN-HMM AM: "00readme-DNN.txt"
+- update support for VS2013
+
 4.3.1 (2014.01.15)
 ===================
 Fixed bugs:

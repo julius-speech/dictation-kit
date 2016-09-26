@@ -1,0 +1,153 @@
+======================================================================
+
+                 DNN(dnnclient)版による音声認識の実行
+
+					            v.4.4 2016/09/21
+======================================================================
+
+□ はじめに //////////////////////////////////////////////////////////
+
+この文書では，DNN(dnnclient)版について説明します．
+
+DNN (Deep Neural Network)のシステムでは高精度な音響モデルを
+使用します．このため処理が重くなり，また手順も複雑になりますが，
+GMM版よりも認識精度が向上します．
+
+DNN(dnnclient)版では，負荷の大きなDNN計算部分を Julius から分けて
+行うことができます．この計算はCPUのみ，またはCPU+GPUにより行います．
+いずれの場合もDNN(dnnclient)版は当キットだけでは実行できません．
+あらかじめ下記の要領で必要なソフトウェアをシステムにセットアップ
+してください．セットアップにはシステムに関する知識や管理者の権限が
+必要です．
+
+なお，GPUについてはWindowsおよびLinuxを対象としています．
+
+
+□ 構成とセットアップ ////////////////////////////////////////////////
+
+GMM版およびDNN(Julius単体)版ではJuliusに対して音声を直接入力して
+認識を行いますが，DNN(dnnclient)版では (1)音声の入力，(2)特徴量
+変換，(3)音声認識をそれぞれ別のプログラムで実行します(これらは
+TCP/IP経由で接続されます)．このうち(2)について，Pythonとその
+ライブラリNumpyを用いて実行するため，これらのセットアップが必要です．
+
+Pythonはバージョン2系列を推奨します(バージョン3系列での検証は
+行っていません)．LinuxやMacOSXの場合は既にインストールされて
+いることもありますが，そうでない場合はパッケージマネージャを
+用いて，あるいはソースコードをダウンロード・コンパイルして
+インストールしてください．Windowsの場合はシステムに含まれて
+いませんので，ダウンロードの上インストールしてください．
+
+なお，公式のNumpyライブラリでは，Windowsで処理が非常に遅くなる
+現象を確認しています．非公式のライブラリでは回避できます．
+
+  [参考URL]
+  Python:
+    http://www.python.org/
+  Python非公式ライブラリ:
+    http://www.lfd.uci.edu/~gohlke/pythonlibs/
+
+
+□ 起動 //////////////////////////////////////////////////////////////
+
+run-win-dnncli.bat (Windows)， run-(linux|osx)-dnncli.sh (Linux/
+MacOSX)を実行することで起動します．Linux・MacOSXではGUI環境で起動
+して下さい．
+
+これらの中では，3つのプログラムが順に起動するようになっています．
+まずJuliusが起動して，しばらくするとPythonおよびadintoolが別の
+ウィンドウで起動します．音声入力についてはadintoolのウィンドウに，
+音声認識結果はJuliusのウィンドウに表示されます．
+
+これらのプログラムの起動タイミング(待ち時間)はあらかじめ調整して
+ありますが，ご利用の環境によっては前のプログラムが起動し終える前に
+次のプログラムが起動し，動作に失敗することがあります．この場合は
+バッチファイル・シェルスクリプトを編集して，待ち時間を長くして下さい．
+
+Linux版ではJuliusがバックグラウンドプロセスとして動作しています．
+まれに終了せずに残ってしまうことがありますので，この場合は手動で
+終了させて下さい．
+
+
+□ GPUの使用 /////////////////////////////////////////////////////////
+
+Pythonによる特徴量の計算は，初期設定ではCPUのみで行いますが，
+GPUを用いて高速化することができます．
+
+この場合は，NVIDIA CUDAに対応したグラフィックカードやGPGPU
+カードが必要です．また，CUDA環境に加えてcudamatライブラリを
+セットアップします(これには開発環境が必要です)．
+
+以下にセットアップ手順の概略を示します．作業に当たっては，
+ソフトウェアの説明，特にcudamatの説明をよく読んでください．
+なお，GPUの使用についてはWindowsおよびLinuxが対象です．
+
+(i) CUDA・cudamatのインストール
+
+Windowsの場合は，cudamatをビルドするために，Microsoft Visual
+Studio 2008が必要です．あらかじめセットアップしてください．
+
+OSやプラットフォームに対応するCUDAパッケージをNVIDIAのWebサイト
+からダウンロードしてインストールしてください．この際，Windows
+ではVisual Studio環境内にCUDAモジュールがセットアップされます．
+
+cudamatのパッケージをダウンロードして，パッケージ内の説明に
+従ってライブラリをビルドしてください．生成されたライブラリの
+ファイル(Windowsなら libcudamat.dll，Linuxでは libcudamat.so)を
+cudamat.py および rnd_multipliers_32bit.txt ファイルとともに
+ディクテーションキットの bin ディレクトリにコピーします．
+
+  [参考URL]
+  NVIDIA CUDA ZONE:
+    https://developer.nvidia.com/category/zone/cuda-zone
+  cudamat:
+    https://code.google.com/p/cudamat/
+  cudamat with Windows support:
+    https://github.com/surban/cudamat
+
+(ii) GPUの利用設定
+
+Linuxでは，CUDAライブラリ(CUDAのインストール先にあるlibやlib64)
+および libcudamat.so を実行時に参照できるよう，これらのパスを
+環境変数 LD_LIBRARY_PATH に設定してください．
+
+例えば，/var/tmp/dictation-kit-linux にこのキットがあり，CUDAが
+/usr/local/cuda にあるとすると，，次のパスを LD_LIBRARY_PATH に
+加えます．
+
+  /usr/local/cuda/lib   (32-bitの場合)
+  /usr/local/cuda/lib64 (64-bitの場合)
+  /var/tmp/dictation-kit-linux/bin
+
+run-win-dnncli.bat や run-(linux|osx)-dnncli.sh は，CPUのみで
+計算する dnnclient.py を使うようになっています．GPUを使用する
+場合は，これを dnnclient-gpu.py に差し替えて( run-win-dnncli.bat や
+run-(linux|osx)-dnncli.sh の内容を書き換えて)ください．
+
+
+□ 注意事項 //////////////////////////////////////////////////////////
+
+このファイルに記載された内容は動作検証時の環境に基づいたものです．
+利用環境によっては手順や設定が異なる，あるいは動作しない可能性が
+あります．GPU利用時の動作検証に利用した環境は次の通りです．
+
+  [Windows]
+  Core i7 (2.8GHz) + 8GB memory + NVIDIA Quadro FX 580
+  Windows7 Ultimate SP1 (64-bit)
+  Microsoft Visual Studio 2008 Professional Edition
+  NVIDIA CUDA 5.5.20 (Desktop 64-bit)
+  Python 2.7.6 + Numpy 1.8.0 非公式版 (64-bit) + cudamat 0.3
+
+  [Linux]
+  Xeon (3.5GHz) + 32GB memory + NVIDIA Quadro K4000
+  CentOS 6.4 (64-bit)
+  NVIDIA CUDA 5.5 (64-bit)
+  Python 2.6.6 + Numpy 1.4.1 (64-bit) + cudamat 0.3
+
+このファイルに挙げたURL(Webサイト)は，利用者の便宜のために記載
+したもので，Juliusおよびディクテーションキットとは関係ありません．
+これらのWebサイトや，そこからダウンロードしたソフトウェア等の
+動作や安全性について何らの保証をするものでもありません．
+自己責任でご利用下さい．
+
+							以上

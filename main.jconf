@@ -37,7 +37,7 @@
 ## triphoneモデルの場合，さらに
 ##     論理的に出現しうる triphone -> 定義されている triphone
 ## の対応を指定した「HMMListファイル」が必要です．
--hlist model/phone_m/logicalTri
+#-hlist model/phone_m/logicalTri
 
 ######################################################################
 #### 言語モデル詳細設定
@@ -58,8 +58,6 @@
 ##triphone向け（v2.1設定）：単語間triphoneを第1パスで扱わない場合
 #-lmp 9.0 8.0
 #-lmp2 11.0 -2.0
--lmp 8.0 -2.0
--lmp2 8.0 -2.0
 
 ##
 ## 透過単語の追加ペナルティ

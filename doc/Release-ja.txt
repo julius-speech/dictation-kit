@@ -1,3 +1,28 @@
+4.4.1 (2016.09.07)
+===================
+- DNNのSIMD計算の高速化と安定化：SSE命令、FMA命令、ARMのNEON命令を実装
+- DNN使用時にCPUを自動チェックして最適なSIMDコードを選択使用するよう拡張
+- VisualStudio2013でのコンパイル用に PortAudio と zlib のソースを同梱
+- mkbinhmmlistで作ったバイナリHMMListが正しく読めないことがあるバグを修正
+- adintool-gui コンパイル時のSDL周りが動かないのを修正
+- "INSTALL.txt" に各OSでのビルドのセットアップと実行方法を記述
+- pkg-config に対応
+- その他バグの修正
+
+4.4 (2016.08.30)
+=================
+- DNN-HMMの計算をサポート
+- "adintool-gui": 音声入力モニタGUI付き adintool (adintool/README-GUI.txt参照)
+- "binlm2arpa": バイナリ言語モデルをARPAに変換する
+- "mkbingram" に言語モデルの文字コードを変換して出力するオプション "-c" を追加
+- モジュールモードで動作時，クライアント切断後に落ちずに再接続できるよう改善
+- 幾つかのOSでのコンパイルエラーを修正
+- メモリリークを幾つか修正
+- バージョン2.6以降の Autoconf で動作するよう修正
+- GitHub用のファイルを追加（README.md, CONTRIBUTING.md 等）
+- DNN-HMMを使った認識の説明テキスト "00readme-DNN.txt" を追加
+- VisualStudio2013以降をサポート
+
 4.3.1 (2014.01.15)
 ===================
 ○バグ修正

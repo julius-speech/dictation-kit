@@ -5,6 +5,7 @@
 bccwj.60k.bingram     言語モデル (Julius bingram形式)
 bccwj.60k.tri.arpa.gz 言語モデル (ARPA形式，gzip圧縮)
 bccwj.60k.htkdic      発音辞書
+bccwj.60k.pdp.htkdic  発音辞書 (位置依存音素用)
 
 【言語モデル】
 
@@ -44,6 +45,6 @@ Kneser-Ney法が適用されている．
 【作成者】
 
 秋田 祐哉 (京都大学)
-2014年1月
+2014年1月 (2016年3月 位置依存音素の辞書を追加)
 
 以上

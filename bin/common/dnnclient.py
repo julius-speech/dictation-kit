@@ -12,11 +12,12 @@ num_input = 1320
 num_hid = 2048
 num_output = 2004
 num_context = 11 # 1320 / 120
-batchsize = 64
+batchsize = 32
 
-w_filename = ["dnn_sample/W_l1.npy", "dnn_sample/W_l2.npy", "dnn_sample/W_l3.npy", "dnn_sample/W_l4.npy", "dnn_sample/W_l5.npy", "dnn_sample/W_output.npy"]
-b_filename = ["dnn_sample/bias_l1.npy", "dnn_sample/bias_l2.npy", "dnn_sample/bias_l3.npy", "dnn_sample/bias_l4.npy", "dnn_sample/bias_l5.npy", "dnn_sample/bias_output.npy"]
-prior_filename = "dnn_sample/prior.dnn"
+w_filename = ["dnn_sample/W_l1.npy", "dnn_sample/W_l2.npy", "dnn_sample/W_l3.npy", "dnn_sample/W_l4.npy", "dnn_sample/W_l5.npy", "dnn_sample/W_l6.npy", "dnn_sample/W_l7.npy", "dnn_sample/W_output.npy"]
+b_filename = ["dnn_sample/bias_l1.npy", "dnn_sample/bias_l2.npy", "dnn_sample/bias_l3.npy", "dnn_sample/bias_l4.npy", "dnn_sample/bias_l5.npy", "dnn_sample/bias_l6.npy", "dnn_sample/bias_l7.npy", "dnn_sample/bias_output.npy"]
+
+prior_filename = "dnn_sample/seedhmm.cluster.prior"
 
 if len(sys.argv) > 1:
     conffile = sys.argv[1]
@@ -52,14 +53,18 @@ w2 = np.load(w_filename[1])
 w3 = np.load(w_filename[2])
 w4 = np.load(w_filename[3])
 w5 = np.load(w_filename[4])
-wo = np.load(w_filename[5])
+w6 = np.load(w_filename[5])
+w7 = np.load(w_filename[6])
+wo = np.load(w_filename[7])
 
 b1 = np.load(b_filename[0])
 b2 = np.load(b_filename[1])
 b3 = np.load(b_filename[2])
 b4 = np.load(b_filename[3])
 b5 = np.load(b_filename[4])
-bo = np.load(b_filename[5])
+b6 = np.load(b_filename[5])
+b7 = np.load(b_filename[6])
+bo = np.load(b_filename[7])
 
 state_prior = np.zeros((bo.shape[0], 1))
 prior_factor = 1.0
@@ -75,7 +80,9 @@ def ff(x0):
     x3 = 1. / (1 + np.exp(-(np.dot(w3.T, x2) + b3)))
     x4 = 1. / (1 + np.exp(-(np.dot(w4.T, x3) + b4)))
     x5 = 1. / (1 + np.exp(-(np.dot(w5.T, x4) + b5)))
-    tmp = np.dot(wo.T, x5) + bo
+    x6 = 1. / (1 + np.exp(-(np.dot(w6.T, x5) + b6)))
+    x7 = 1. / (1 + np.exp(-(np.dot(w7.T, x6) + b7)))
+    tmp = np.dot(wo.T, x7) + bo
     np.exp(tmp, tmp)
     tmp /= np.sum(tmp, axis=0)
     tmp /= state_prior

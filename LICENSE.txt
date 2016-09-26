@@ -3,8 +3,8 @@
 	「Juliusディクテーションキット」
 			利用許諾書
 
-  Copyright (c)   1991-2014 京都大学 河原研究室
-  Copyright (c)   2005-2014 名古屋工業大学 李研究室
+  Copyright (c)   1991-2016 京都大学 河原研究室
+  Copyright (c)   2005-2016 名古屋工業大学 李研究室
 
 ----------------------------------------------------------------------------
 
@@ -41,8 +41,9 @@
 モデルを利用して得られた知見に関して発表を行う際には、その旨を明記して
 下さい。
 
-3-2. 本ソフトウェアに含まれている音響モデルは、日本音響学会の『新聞記
-事読み上げ音声コーパス』(JNAS)を使用して作成されたものです。
+3-2. 本ソフトウェアに含まれている音響モデルは、『日本音響学会 新聞記事
+読み上げ音声コーパス』(JNAS)、及び『日本語話し言葉コーパス』(CSJ)を使
+用して作成されたものです。
 
 (無保証)
 4. 本ソフトウェアについて、明示、黙示を問わず、いかなる国におけるいか
@@ -69,8 +70,7 @@
 
 (照会)
 7. 本ソフトウェアのメンテナンスやサポート、上記条件以外の利用等に関し
-ては、名古屋工業大学 Julius開発チーム、または京都大学 河原研究室に照会
-下さい。
+ては、京都大学 河原研究室、及び名古屋工業大学 李研究室に照会下さい。
 
 
 
@@ -80,8 +80,8 @@
 	Julius Dictation Kit
 	License Agreement
 
- Copyright (c) 1991-2014 Kawahara Lab., Kyoto University
- Copyright (c) 2005-2014 Lee Lab., Nagoya Institute of Technology
+ Copyright (c) 1991-2016 Kawahara Lab., Kyoto University
+ Copyright (c) 2005-2016 Lee Lab., Nagoya Institute of Technology
 
 "Julius Dictation Kit" has been developed at Kawahara Lab., Kyoto
 University and Lee Lab., Nagoya Institute of Technology (collectively
@@ -127,7 +127,8 @@ using the Software, you must explicitly mention this fact.
 
 3-2. The acoustic model included in this Software has been developed
 by using the "ASJ Continuous Speech Corpus -- Japanese Newspaper
-Article Sentences (JNAS)" compiled by the Acoustical Society of Japan.
+Article Sentences (JNAS)" and the "Corpus of Spontaneous Japanese
+(CSJ)".
 
 (Disclaimer of Warranty)
 4. The Licensers make no warranty of any kind and nature, whether
@@ -160,5 +161,6 @@ thereto.
 (Contact)
 7. Inquiries about support or maintenance of the Software, or
 inquiries concerning the license of use besides the conditions above,
-may be sent to Julius project team, Nagoya Institute of Technology, or
-Kawahara Lab., Kyoto University.
+may be sent to Kawahara Lab., Kyoto University or Lee Lab., Nagoya
+Institute of Technology.
+

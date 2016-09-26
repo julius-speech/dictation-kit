@@ -4,7 +4,22 @@ This is Japanese dictation toolkit based on [Julius](https://github.com/julius-s
 
 ## Requirement
 
-This tookit runs on Windows, Linux and Mac OS X.  Please execute a script appropriate for your environment.  A sound input is required for caputuring audio input.
+This tookit is set up to run on Windows, Linux and Mac OS X.  
+- Windows 7/8.1/10 (64-bit), require DirectSound.
+- CentOS 6 and Ubuntu 16.04 LTS (64-bit).
+- MacOSX 10.11 (El Capitan).  X11 (XQuartz) is required for DNN-client version.
+
+Note that the process size could be larger than 700MB with DNN set up.
+Recommends multi-core CPU (Sandy Bridge and later) or good GPU (CUDA)
+for DNN-HMM.
+
+## Version
+
+The latest version is 4.4, based on Julius-4.4.2.  Three setting are provided:
+
+- *-gmm.sh: GMM-HMM
+- *-dnn.sh: DNN-HMM (Julius only, CPU(SIMD))
+- *-dnncli.sh: DNN-HMM (Julius + python, GPU capable)
 
 ## How to run
 
@@ -14,7 +29,7 @@ This tookit runs on Windows, Linux and Mac OS X.  Please execute a script approp
 
 ## About models
 
-This package contains executables of Julius, Japanese acoustic models (AM) and Japanese language models (LM). The AMs are  speaker-independent triphone DNN/GMM HMMs trained from JNAS.  It also has regression tree classes that is required for speaker adaptation by HTK.  The LMs are 60k-word N-gram language models trained by BCCWJ corpus.
+This package contains executables of Julius, Japanese acoustic models (AM) and Japanese language models (LM). The AMs are speaker-independent triphone DNN/GMM HMMs trained from JNAS.  It also has regression tree classes that is required for speaker adaptation by HTK.  The LMs are 60k-word N-gram language models trained by BCCWJ corpus.
 
 ## Other information
 

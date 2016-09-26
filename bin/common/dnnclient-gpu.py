@@ -22,9 +22,10 @@ num_output = 2004
 num_context = 11 # 1320 / 120
 batchsize = 32
 
-w_filename = ["dnn_sample/W_l1.npy", "dnn_sample/W_l2.npy", "dnn_sample/W_l3.npy", "dnn_sample/W_l4.npy", "dnn_sample/W_l5.npy", "dnn_sample/W_output.npy"]
-b_filename = ["dnn_sample/bias_l1.npy", "dnn_sample/bias_l2.npy", "dnn_sample/bias_l3.npy", "dnn_sample/bias_l4.npy", "dnn_sample/bias_l5.npy", "dnn_sample/bias_output.npy"]
-prior_filename = "dnn_sample/prior.dnn"
+w_filename = ["dnn_sample/W_l1.npy", "dnn_sample/W_l2.npy", "dnn_sample/W_l3.npy", "dnn_sample/W_l4.npy", "dnn_sample/W_l5.npy", "dnn_sample/W_l6.npy", "dnn_sample/W_l7.npy", "dnn_sample/W_output.npy"]
+b_filename = ["dnn_sample/bias_l1.npy", "dnn_sample/bias_l2.npy", "dnn_sample/bias_l3.npy", "dnn_sample/bias_l4.npy", "dnn_sample/bias_l5.npy", "dnn_sample/bias_l6.npy", "dnn_sample/bias_l7.npy", "dnn_sample/bias_output.npy"]
+
+prior_filename = "dnn_sample/seedhmm.cluster.prior"
 
 if len(sys.argv) > 1:
     conffile = sys.argv[1]
@@ -60,14 +61,18 @@ w2 = cm.CUDAMatrix(np.load(w_filename[1]))
 w3 = cm.CUDAMatrix(np.load(w_filename[2]))
 w4 = cm.CUDAMatrix(np.load(w_filename[3]))
 w5 = cm.CUDAMatrix(np.load(w_filename[4]))
-wo = cm.CUDAMatrix(np.load(w_filename[5]))
+w6 = cm.CUDAMatrix(np.load(w_filename[5]))
+w7 = cm.CUDAMatrix(np.load(w_filename[6]))
+wo = cm.CUDAMatrix(np.load(w_filename[7]))
 
 b1 = cm.CUDAMatrix(np.load(b_filename[0]))
 b2 = cm.CUDAMatrix(np.load(b_filename[1]))
 b3 = cm.CUDAMatrix(np.load(b_filename[2]))
 b4 = cm.CUDAMatrix(np.load(b_filename[3]))
 b5 = cm.CUDAMatrix(np.load(b_filename[4]))
-bo = cm.CUDAMatrix(np.load(b_filename[5]))
+b6 = cm.CUDAMatrix(np.load(b_filename[5]))
+b7 = cm.CUDAMatrix(np.load(b_filename[6]))
+bo = cm.CUDAMatrix(np.load(b_filename[7]))
 
 state_prior = np.zeros((bo.shape[0], 1))
 prior_factor = 1.0
@@ -119,13 +124,27 @@ def ff(x0_cpu):
     x_l5.add_col_vec(b5)
     x_l5.apply_sigmoid()
 
-    x_output = cm.empty((num_output, data_size))
+    x_l6 = cm.empty((num_hid, data_size))
     del x_l4
+
+    cm.dot(w6.T, x_l5, target = x_l6)
+    x_l6.add_col_vec(b6)
+    x_l6.apply_sigmoid()
+
+    x_l7 = cm.empty((num_hid, data_size))
+    del x_l5
+
+    cm.dot(w7.T, x_l6, target = x_l7)
+    x_l7.add_col_vec(b7)
+    x_l7.apply_sigmoid()
+
+    x_output = cm.empty((num_output, data_size))
+    del x_l6
 
     tmp_x_output = cm.empty((num_output, data_size))
     tmp_x_output_sums = cm.empty((1, data_size))
 
-    cm.dot(wo.T, x_l5, target = tmp_x_output)
+    cm.dot(wo.T, x_l7, target = tmp_x_output)
     tmp_x_output.add_col_vec(bo)
     cm.exp(tmp_x_output)
     tmp_x_output.sum(axis=0, target = tmp_x_output_sums)

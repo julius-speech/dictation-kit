@@ -9,6 +9,7 @@ jnas-tri-3k16-gid.hmmdefs    GMM-HMM音響モデル (triphone, HTK形式)
 jnas-tri-rtree.base          Triphoneモデルの回帰木情報 (HTKによるMLLR用)
 jnas-tri-rtree.tree          Triphoneモデルの回帰木情報 (HTKによるMLLR用)
 logicalTri                   Triphoneリスト
+logicalTri-3k16-gid.bin      Triphoneリスト (バイナリ形式，上記triphone専用)
 
 【学習データ】
 
@@ -32,6 +33,6 @@ Triphoneモデルのみ，付属の回帰木情報(base, tree)を用いて，HTKによりMLLR
 【作成者】
 
 三村 正人 (京都大学)
-2014年1月
+2014年1月 (2016年9月 バイナリTriphoneリスト追加)
 
 以上

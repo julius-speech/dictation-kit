@@ -3,9 +3,18 @@
 ##
 
 # 音響モデル: DNN-HMM
--h model/dnn/hmmdefs.dnn
+-h model/dnn/binhmm.SID
+#-hlist model/dnn/logicalTri
+-hlist model/dnn/logicalTri.bin
 
-# 入力: ネットワークからの特徴量入力
--input vecnet
+# DNNモデルは音素セットが異なるため，発音辞書も異なる
+-v model/lang_m/bccwj.60k.pdp.htkdic
+
+# 言語モデル重み・単語挿入ペナルティ
+-lmp  14 0
+-lmp2 14 0
+
+# 入力: マイク
+-input mic
 
 ## EOF

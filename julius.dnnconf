@@ -1,0 +1,26 @@
+feature_type FBANK_D_A_Z
+feature_options -htkconf model/dnn/config.lmfb -cvn -cmnload model/dnn/norm -cmnstatic
+feature_len 120
+context_len 11
+input_nodes 1320
+output_nodes 4874
+hidden_nodes 2048
+hidden_layers 7
+W1 model/dnn/W_l1_f4.npy
+W2 model/dnn/W_l2_f4.npy
+W3 model/dnn/W_l3_f4.npy
+W4 model/dnn/W_l4_f4.npy
+W5 model/dnn/W_l5_f4.npy
+W6 model/dnn/W_l6_f4.npy
+W7 model/dnn/W_l7_f4.npy
+B1 model/dnn/bias_l1_f4.npy
+B2 model/dnn/bias_l2_f4.npy
+B3 model/dnn/bias_l3_f4.npy
+B4 model/dnn/bias_l4_f4.npy
+B5 model/dnn/bias_l5_f4.npy
+B6 model/dnn/bias_l6_f4.npy
+B7 model/dnn/bias_l7_f4.npy
+output_W model/dnn/W_output_f4.npy
+output_B model/dnn/bias_output_f4.npy
+state_prior model/dnn/prior
+state_prior_factor 1.0
