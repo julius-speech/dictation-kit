@@ -2,6 +2,12 @@
 
 This is Japanese dictation toolkit based on [Julius](https://github.com/julius-speech/julius).  You can try live Japanese speech recognition, simply by getting this kit and execute the run script.
 
+## Download
+
+Since the total size is around 2GB, you should install [git-lfs (Git Large File Storage)](https://git-lfs.github.com/) before clone to obtain all the entity into your local repository, else only the link will be cloned. 
+
+- [Install Git LFS](https://git-lfs.github.com/) before clone!
+
 ## Requirement
 
 This tookit is set up to run on Windows, Linux and Mac OS X.  
