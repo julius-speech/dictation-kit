@@ -46,9 +46,10 @@ See [Julius GitHub page](https://github.com/julius-speech/julius) for full docum
 
 v4.5
 
-- Update to Julius-4.5
+- Update to [Julius-4.5](https://github.com/julius-speech/julius/releases/tag/v4.5)
 - Updated speech detection parameters from `-lv 1500` to `-lv 500 -fvad 3` at main.jconf
 - Set number of threads for DNN to 2 at julius.dnnconf
+- Removed old doc, Japanese text to UTF-8
 
 v4.4
 
