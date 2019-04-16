@@ -1,17 +1,17 @@
 ##
-## ディクテーションキット GMM-HMM版音響モデル・入力設定
+## dictation-kit GMM-HMM configuration
 ##
 
-# 音響モデル: GMM-HMM
+# GMM-HMM
 -h model/phone_m/jnas-tri-3k16-gid.binhmm
 #-hlist model/phone_m/logicalTri
 -hlist model/phone_m/logicalTri-3k16-gid.bin
 
-# 言語モデル重み・単語挿入ペナルティ
+# language model weights and word insertion penalties
 -lmp  10 0
 -lmp2 10 0
 
-# 入力: マイク
+# choose microphone input
 -input mic
 
 ## EOF

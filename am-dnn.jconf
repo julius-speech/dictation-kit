@@ -1,20 +1,20 @@
 ##
-## ディクテーションキット DNN-HMM版音響モデル・入力設定
+## dictation-kit DNN-HMM configuration
 ##
 
-# 音響モデル: DNN-HMM
+# DNN-HMM
 -h model/dnn/binhmm.SID
 #-hlist model/dnn/logicalTri
 -hlist model/dnn/logicalTri.bin
 
-# DNNモデルは音素セットが異なるため，発音辞書も異なる
+# The phone set of DNN-HMM is different from GMM-HMM, so requires another dictionary
 -v model/lang_m/bccwj.60k.pdp.htkdic
 
-# 言語モデル重み・単語挿入ペナルティ
+# language model weights and word insertion penalties
 -lmp  14 0
 -lmp2 14 0
 
-# 入力: マイク
+# choose microphone input
 -input mic
 
 ## EOF

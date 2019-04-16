@@ -24,3 +24,4 @@ output_W model/dnn/W_output_f4.npy
 output_B model/dnn/bias_output_f4.npy
 state_prior model/dnn/prior
 state_prior_factor 1.0
+num_threads 2

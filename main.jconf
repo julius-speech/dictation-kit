@@ -1,348 +1,447 @@
 #
-# Julius 設定ファイル サンプル for rev.4.3
+# Sample Jconf configuration file
+# for Julius library rev.4.5
 #
-# 1) 重要: 相対パスは，＊このファイルを起点に＊指定してください．
-# 2) 空行および # から行末まではコメントとみなします．
-#    `#'をコマンドに含めたい場合は '\#' としてください．
-# 3) 1行の長さは 512 バイト以内に収めてください．
-# 4) 各オプションの書式は，コマンドラインで与える場合と同一です．
-# 5) このファイル内の各値は Julius のデフォルト値です．
+# 1) Options can also be specified in command line option.
+#    The values are default values in Julius.
+# 2) For file name, relative path must be relative to THIS FILE.
+# 3) Texts after '#' at each line will be ignored.  If you want to specify
+#    '#', use `\#'.
+# 4) Each line should be no longer than 512 bytes.
+#
 #
 
 ######################################################################
-#### ファイル指定
+#### JULIUS APPLICATION OPTION (not a part of JuliusLib)
 ######################################################################
-##
-## 単語2-gram,3-gramファイル
-##
-# ARPA標準形式
-#-nlr /cdrom/lang_m/20k/MNP.111.20k.1.arpa.gz		# 2-gram
-#-nrl /cdrom/lang_m/20k/MNP.111.20k.rev.1-1.10p.arpa.gz	# 逆向き 3-gram
-# もしくは
-# mkbingramで作成したバイナリ形式
+#-outfile			# save each result in separate file
+#-separatescore			# print AM / LM scores separately
+#-callbackdebug			# print callback names at call for debug
+#-charconv from to		# print with character set conversion
+#-nocharconv			# disable "-charconv"
+#-module			# start in module mode
+#-record dir			# record each inputs into dir
+#-logfile file			# redirect logs to file
+#-nolog				# disable all logs
+#-help				# print help, and exit
+
+
+######################################################################
+#### GLOBAL OPTIONS
+######################################################################
+####
+#### Misc. Options
+####
+#-C jconffile			# include jconf file at here
+#-version			# print version info to stderr, and exit
+#-setting			# print version info to stderr, and exit
+#-quiet				# output less log
+#-debug				# output more log for debug
+#-check wchmm			# for debug, enter debug shell mode
+#-check trellis			# for debug, enter debug shell mode
+#-check triphone		# for debug, enter debug shell mode
+#-demo				# same as "-quiet -progout"
+
+####
+#### Stream Input
+####
+
+## Feature vector input
+#-input mfcfile			# feature vector in HTK parameter file
+#-input htkparam		# (same as "mfcfile")
+#-input outprob			# outprob vector in HTK parameter file
+#-input vecet			# feature / outprob vector via network client
+
+## Raw audio input
+#-input mic    			# live microphone
+#-input rawfile			# wavefile
+#-input file			# (same as "rawfile")
+#-input stdin			# waveform from standard input
+#-input adinnet			# waveform via network client
+#-input netaudio                # DatLink server
+#-input oss			# OSS API input (if available)
+#-input alsa			# ALSA API input (if available)
+#-input esd			# ESounD daemon input (if available)
+#-input portaudio		# PortAudio API
+#-input pulseaudio		# PulseAudio API
+
+
+#-filelist filename		# input file list
+#-notypecheck			# does not check parameter type of input
+#-48				# 48kHz sampling > 16kHz conv. (16kHz only)
+#-NA devname			# hostname for DatLink server
+#-adport 5530			# port number for adinnet
+#-nostrip			# do not strip zero samples
+#-zmean				# remove DC offset (use long input average)
+#-nozmean			# disable "-zmean" specified before
+
+####
+#### Audio Input Scaling
+####
+#-lvscale 1.0			# input level scaling factor (1.0 = disable)
+
+####
+#### Speech segment detection by level and zero-cross
+####
+#### default: on for microphone, off for other sources
+####
+#-cutsilence			# detection on
+#-nocutsilence			# detection off
+#-lv 2000			# level threshold (0-32767)
+#-zc 60				# zero-cross threshold (times in sec.)
+#-headmargin 300		# head silence margin (msec)
+#-tailmargin 400		# tail silence margin (msec)
+#-chunk_size 1000		# processing segment unit length in samples
+#-rejectshort 0			# reject shorter input (msec)
+#-rejectlong -1			# reject longer input (msec) -1 to disable
+
+-lv 500
+-headmargin 300
+-tailmargin 300
+-rejectshort 800
+
+####
+#### Speech detection by libfvad
+####
+#-fvad -1           # disable libfvad
+#-fvad 0            # enable on mode 0 (least aggressive to filtering out non-speech)
+#-fvad 1            # enable on mode 1 (moderately aggressive to filtering out non-speech)
+#-fvad 2            # enable on mode 2 (aggressive to filtering out non-speech)
+#-fvad 3            # enable on mode 3 (very aggressive to filtering out non-speech)
+#-fvad_param 5 0.5  # optinal parameter: smoothing frames, trigger threshold
+
+-fvad 3
+
+####
+#### Input rejection by average power (EXPERIMENTAL)
+####
+####  This will be enabled by "--enable-power-reject" on compilation.
+####  Should be used with Decoder VAD or GMM VAD.
+####  Valid for real-time input only.
+####
+#-powerthres 9.0		# reject input by avg. energy
+
+####
+#### Gaussian Mixture Model
+####
+####  GMM will be used for input rejection by accumurated score, or
+####  for GMM-based frontend VAD when "--enable-gmm-vad" specified.
+####
+####  NOTE: If you use MFCC for the GMM which is different from AM, you
+####  should also set the parameters like other AM with an option "-AM_GMM".
+####  If "-AM_GMM" is not used, Julius assume GMM to use the same
+####  parameter as the first AM.
+####
+#-gmm hmmdefs			# GMM definitions in HTK format
+#-gmmnum 10			# num of Gaussians to be computed per GMM
+#-gmmreject string		# comma-separated list of GMM name to reject
+#### GMM_VAD
+#-gmmmargin 20			# head margin for GMM based VAD in frames
+
+####
+#### Decoding option
+####
+#### Real-time processing means concurrent processing of MFCC computation
+#### and 1st pass decoding.  By default, real-time processing on the
+#### 1st pass is on for microphone / adinnet / netaudio input, and
+#### off for others.
+####
+#-realtime			# force real-time processing
+#-norealtime			# force non real-time processing
+
+####
+#### Plug-in
+####
+#### See plugin/00readme.txt for detail
+####
+#-plugindir ./plugin:/usr/local/share/julius/plugins
+
+
+######################################################################
+#### INSTANCE DEFINITION FOR MULTI DECODING
+######################################################################
+####
+#### The following three argument will create a new configuration set
+#### with default parameters, and switch current set to it.  Jconf
+#### parameters specified after the option will be set into the current
+#### set.
+####
+#### To do multi-model decoding, these argument should be specified at
+#### the first of each model / search instances with different names.
+#### Any options before the first instance definition will be IGNORED.
+####
+#### When no instance definition is found (as older version of Julius),
+#### all the options are assigned to a default instance named "_default".
+####
+#### Please note that decoding with a single LM and multiple AMs is not
+#### fully supported.  For example, you may want to construct the
+#### jconf file as this:
+####
+####  -AM am_1 -AM am_2
+####  -LM lm (LM spec..)
+####  -SR search1 am_1 lm
+####  -SR search2 am_2 lm
+####
+#### This type of model sharing is not supported yet, since some part
+#### of LM processing depends on the assigned AM.  Instead, you can
+#### get the same result by defining the same LMs for each AM, like this:
+####
+####  -AM am_1 -AM am_2
+####  -LM lm_1 (LM spec..)
+####  -LM lm_2 (same LM spec..)
+####  -SR search1 am_1 lm_1
+####  -SR search2 am_2 lm_2
+####
+
+## Create a new AM configuration set, and switch current to it.
+## You should give a unique name.
+#-AM name			
+
+## Create a new LM configuration set, and switch current to it.
+## You should give a unique name.
+#-LM name			
+
+## Create a new Search configuration set with AM and LM, and switch 
+## current to it.  AM and LM name can be either name or ID number.
+#-SR name am_name_or_id lm_name_or_id
+
+## Switch current AM to special one reserved for GMM, to specify
+## analysis parameter for GMM.  Be sure not to confuse with normal AM
+## configuration.
+# -AM_GMM
+
+## When using instance declarations, global options should be placed
+## at top before any instance declaration, or after this option below.
+## This option is only a switcher and can be used anywhere anytime.
+# -GLOBAL
+
+## This option disables the strict section checkings and back to 4.0
+# -nosectioncheck
+
+######################################################################
+#### LANGUAGE MODEL (-LM)
+######################################################################
+####
+#### Only one type of LM can be specified for a LM configuration.
+####
+
+####
+#### N-gram
+####
+#-d binary_ngram_file		# N-gram in Julius binary format
+#-nlr ngram			# forward (left-to-right) N-gram
+#-nrl rev_ngram			# backward (right-to-left) N-gram
+#-v dictfile			# word dictionary
+## param.
+#-silhead "<s>"			# beginning-of-sentence (silence) word
+#-siltail "</s>"		# end-of-sentence (silence) word
+#-mapunk "<unk>"		# word to which unknown words should be mapped
+#-iwspword			# add a pause word to the dictionary
+#-iwspentry "<UNK> [sp] sp sp"	# word that will be added by "-iwspword"
+#-sepnum 150			# num of high freq words to linearize 
+#-adddict dictfile              # append additional word dictionary
+#-addword entry                 # append additional word entry
+
 -d model/lang_m/bccwj.60k.bingram
-
-##
-## 単語辞書ファイル
-##
 -v model/lang_m/bccwj.60k.htkdic
 
-##
-## 音響HMM定義ファイル
-##
-# asciiフォーマット，もしくは "mkbinhmmで" 作成したバイナリ形式
-# （自動判別される）
-#-h model/phone_m/jnas-tri-3k16-gid.binhmm
+####
+#### Grammar
+####
+#### "-gram", "-gramlist" can be used multiple times
+#-gram gramprefix		# (comma-separated list of) grammar file prefix
+#-gramlist txtfile		# text file containing grammar prefixes
+#-dfa dfafile -v dictfile	# specify DFA and dictionary separately
+#-nogram			# reset all grammar list already specified
 
-## triphoneモデルの場合，さらに
-##     論理的に出現しうる triphone -> 定義されている triphone
-## の対応を指定した「HMMListファイル」が必要です．
-#-hlist model/phone_m/logicalTri
+####
+#### Isolated Word
+####
+#-w dictfile			# word dictionary
+#-wlist txtfile			# text file containing dictionaries
+#-nogram			# reset all dictfiles already specified
+## param.
+#-wsil silB silE NULL		# head / tail silence models to be appended
 
-######################################################################
-#### 言語モデル詳細設定
-######################################################################
-##
-## 言語重みと挿入ペナルティ
-##
-## 例えば, "-lmp 8.0 7.0" のとき，言語確率の対数尤度 'log p(w)' は
-## (log p(w)) * 8.0 + 7.0' として適用されます．
-##
-##デフォルト値
-##monophone向け
-#-lmp 5.0 -1.0		# 第1パス(2-gram)
-#-lmp2 6.0 0.0		# 第2パス(3-gram)
-##triphone向け
-#-lmp 8.0 -2.0
-#-lmp2 8.0 -2.0
-##triphone向け（v2.1設定）：単語間triphoneを第1パスで扱わない場合
-#-lmp 9.0 8.0
-#-lmp2 11.0 -2.0
+####
+#### User-defined LM
+####
+#-userlm			# declare to use user LM defined in program
 
-##
-## 透過単語の追加ペナルティ
-##
-#-transp 0.0
+####
+#### misc LM option
+####
+#-forcedict			# skip error word entries (no stop on error)
 
 ######################################################################
-#### 単語辞書詳細設定
+#### ACOUSTIC MODEL (-AM)  (-AM_GMM)
 ######################################################################
-##
-## 文頭単語の名前 (単語辞書では無音の読みを付与する)
-## 
-#-silhead '<s>'
+####
+#### Acoustic analysis parameters are included in this section, since
+#### the AM defines the required parameter.  You can use different MFCC
+#### type for each AM.
+#### For GMM, the same parameter should be specified after "-AM_GMM"
+#### 
+#### When using multiple AM,  the values of "-smpPeriod", "-smpFreq",
+#### "-fsize" and "-fshift" should be the same among all AM.
+####
 
-##
-## 文末単語の名前 (同上)
-##
-#-siltail '</s>'
+## Acoustic model
+#-h hmmfile			# acoustic HMM (ascii or Julius binary)
+#-hlist logicaltri		# HMMList to map logical phone to physical
+#-tmix 2			# # of mixture to compute in a mixture PDF
+#-spmodel "sp"			# name of a short-pause silence model
+#-multipath			# force enable MULTI-PATH model handling
+#-gprune {safe|heuristic|beam|none|default} # Gaussian pruning method
+#-iwcd1 {max|avg|best 3}	# Inter-word triphone approximation method
+#-iwsppenalty -1.0		# pause insertion penalty for "-iwsp"
+#-gshmm hmmfile 		# HMM for Gaussian mixture selection
+#-gsnum 24			# Threshold number of HMM for gshmm
 
-##
-## エラー単語を無視して続行する
-##
-#-forcedict
+## Analysis
+#-smpPeriod 625			# sampling period (ns) (= 10000000 / smpFreq)
+#-smpFreq 16000			# sampling rate (Hz)
+#-fsize 400			# window size (samples)
+#-fshift 160			# frame shift (samples)
+#-preemph 0.97			# pre-emphasis coef.
+#-fbank 24			# number of filterbank channels
+#-ceplif 22			# cepstral liftering coef.
+#-rawe				# use raw energy
+#-norawe			# disable "-rawe" (this is default)
+#-enormal			# normalize log energy
+#-noenormal			# disable "-enormal" (this is default)
+#-escale 1.0			# scaling log energy for enormal
+#-silfloor 50.0			# energy silence floor in dB for enormal
+#-delwin 2			# delta window (frames)
+#-accwin 2			# acceleration window (frames)
+#-hifreq -1			# cut-off hi frequency (Hz) (-1: disable)
+#-lofreq -1			# cut-off low frequency (Hz) (-1: disable)
+#-zmeanframe			# frame-wise DC offset removal (same as HTK)
+#-nozmeanframe			# disable "-zmeanframe" (this is default)
+
+-zmeanframe
+
+## Cepstral mean / variance normalization
+#-cmnload filename		# load initial cep. mean / variance on startup
+#-cmnsave filename		# save cep. mean / variance at each input end
+#-cmnupdate			# update beginning cep. data at each input
+#-cmnnoupdate			# keep initial mean, disable "-cmnupdate"
+#-cmnmapweight 100.0		# weight for MAP-CMN
+#-cvn				# enable variance normalization
+#-cmnstatic			# totally static cmn/cvn
+
+## Vocal tract length normalization (VTLN)
+#-vtln 1.0 300 4800		# enable VTLN (alpha, lowerfreq, upperfreq)
+
+## Spectral subtraction (default: disabled)
+#-sscalc			# do SS, estimate noise from head sil
+#-sscalclen 300			# length of head silence for "-sscalc" (msec)
+#-ssload filename		# do SS, load noise spectrum saved by "mkss"
+#-ssalpha 2.0			# alpha coef. for spectral subtraction
+#-ssfloor 0.5			# spectral floor coef.
+
+## DNN-HMM definition (default disabled (= GMM-HMM))
+#-dnnconf file			# DNN configuration file
+
+## Others
+#-htkconf configfile		# load analysis settings from HTK Config file 
 
 ######################################################################
-#### 音響モデル詳細設定
+#### RECOGNIZER (-SR)
 ######################################################################
-##
-## Julius が triphone/monophone の自動判別に失敗する場合，
-## 以下を試してみてください．
-##
-#-no_ccd		# 音素環境依存性を(強制的に)考慮しない
-#-force_ccd		#	 〃	  (強制的に)考慮する
+####
+#### Default values for beam width and LM weights will change
+#### according to compile-time setup of JuliusLib and model specification.
+#### Please see the startup log for the actual values.
+#### 
 
-##
-## 特徴パラメータの型チェックをスキップしたい場合は，
-## 以下を試してみてください．
-##
-#-notypecheck
-#
+####
+#### parameter (common)
+####
+#-inactive			# start this process with inactive status
+#-1pass				# perform only the 1st pass, omit 2nd pass
+#-no_ccd			# switch off the phone context dependency
+#-force_ccd			# force on the phone context dependency
+#-cmalpha 0.05			# CM alpha value
+#-iwsp				# append a skippable sp at all word ends
+#-transp 0.0			# transition penalty for transparent words
 
-##
-## PTM/triphone 使用時，第1パスの単語間triphoneの音響尤度計算方法を指定する．
-##
-#-iwcd1 best 3	# 同コンテキストtriphoneの上位N個の平均値 (default, N=3)
-#-iwcd1 max	# 同コンテキストtriphoneの最大値
-#-iwcd1 avg	# 同コンテキストtriphoneの平均値
-
-######################################################################
-#### Gaussian Pruning パラメータ
-######################################################################
-## コードブックあたり計算するガウス分布計算数（上位N個）
-## 以下のデフォルト値は IPA99 の PTM モデル(１コードブックあたり64混合）
-## に合わせた値
-#-tmix 2
-
-## Gaussian pruning 法の選択
-## 高速版ではbeam，それ以外ではsafeがデフォルトです
-#-gprune safe		# safe pruning 上位N個が確実に求まる．正確．
-#-gprune heuristic	# heuristic pruning
-#-gprune beam		# beam pruning 次元ごとに足切り．高速．
-#-gprune none		# pruning を行わない
-
-######################################################################
-#### Gaussian Mixture Selection パラメータ
-######################################################################
-#-gshmm hmmdefs		# GMS 用モノフォン音響モデルを指定
-			# 指定なし = GMS OFF
-#-gsnum 24		# GMS使用時の選択状態数
-
-######################################################################
-#### 探索パラメータ
-######################################################################
-#-b 400			# 第1パスのビーム幅（ノード数） monophone
-#-b 800			# 第1パスのビーム幅（ノード数） triphone,PTM
-#-b 1000		# 第1パスのビーム幅（ノード数） triphone,PTM,engine=v2.1
-#-b2 30			# 第2パスの仮説数ビームの幅（仮説数）
-#-sb 80.0		# score beam envelope threshold
-#-s 500			# 第2パスの最大スタック数 (仮説数)
-#-m 2000		# 第2パスの仮説オーバフローのしきい値
-#-lookuprange 5		# 第2パスで単語展開時のトレリス制約緩和幅（フレーム数）
-#-n 1			# 第2パスで見つける文の数（文数）
-#-n 10			#   （'standard' 設定時のデフォルト)
+####
+#### parameter (1st pass)
+####
+#-lmp weight penalty		# LM weight and word insertion penalty (pass1)
+#-penalty1 penalty		# word insertion penalty for grammar (pass1)
+#-b width			# beam width (# of nodes)
+#-bs score                      # beam width (score)
+#-nlimit 3			# with enable-wpair-nlimit, set max N at nodes
+#-progout			# progressive output while decoding
+#-proginterval 300		# output interval in msec for "-progout"
 
 -b 1500
+
+####
+#### parameter (2nd pass)
+####
+#-lmp2 weight penalty		# LM weight and word insertion penalty (pass2)
+#-penalty2 penalty		# word insertion penalty for grammar (pass2)
+#-b2 width			# envelope beam width of 2nd pass (#word)
+#-sb 80.0			# envelope score width at 2nd pass
+#-s 500				# hypotheses stack size on 2nd pass (#hypo)
+#-m 2000			# hypotheses overflow threshold (#hypo)
+#-n n				# num of sentences to find
+#-output 1			# num of sentences to output as result
+#-lookuprange 5			# hypo. lookup range at word expansion (#frame)
+#-looktrellis			# expand only trellis words in grammar
+#-fallback1pass			# output 1st pass result when 2nd pass fails
+
 -b2 100
 -s 500
 -m 10000
 -n 30
--output 1		# 第2パスで見つかった文のうち出力する数 （文数）
+-output 1
 
-### "./configure --enable-lowmem" 時に有効
-#-iwcache 10		# 単語間言語確率キャッシュの大きさ比率
-			# (100でオプションなしと同等)
+####
+#### short-pause segmentation (and decoder-based VAD)
+####
+#-spsegment			# enable sp segmentation (or decoder VAD)
+#-spdur 10			# # of frames to detect a short pause
+#-pausemodels string		# comma-separated pause model names
+#### for decoder-VAD
+#-spmargin 40			# backstep margin at trigger up (frame)
+#-spdelay 4			# decision delay at trigger up (frame)
 
-### "./configure --enable-lowmem2" 時に有効
-#-sepnum 150		# 第1パスで単語木から独立させる高頻度語の数（単語数）
+#### 
+#### lattice output
+#### 
+#-lattice			# output result in word graph (aka -graphout)
+#-graphrange 0			# merge same words nearby, -1 to disable merge
+#-graphcut 80			# graph depth cut threshold (in depth)
+#-graphboundloop 20		# max itertations for boundary adjustment loop
+#-graphsearchdelay		# activate an alternate generation algorithm 
+#-nographsearchdelay		# disable "-graphsearchdelay"
 
-######################################################################
-#### 単語グラフ出力 (--enable-graphout)
-######################################################################
-##
-## 同じ単語をマージする
-##  -1: マージしない（同じ場所の同じ単語でもスコアが異なれば別の候補）
-##   0: 同じ位置の同じ単語をマージ
-##  >0: 始端・終端の差が指定されたフレーム幅以下の同じ単語をマージ
-## 
-#-graphrange 0
+#### 
+#### confusion network output
+#### 
+#-confnet			# enable confusion network output
+#-noconfnet			# disable confusion network output
 
-##
-## 指定以上の深さの単語をカットする (-1: 無効化)
-##
-#-graphcut 80
+#### 
+#### multi-grammar output (for grammar and isolated word)
+#### 
+#-multigramout			# output max hypo for each grammar
+#-nomultigramout		# disable "-multigramout"
 
-##
-## 単語境界調整ループ回数の上限
-##
-#-graphboundloop 20
+#### 
+#### forced alignment
+#### 
+#-walign			# enable alignment for result at word level
+#-palign			# enable alignment for result at phoneme level
+#-salign			# enable alignment for result at state level
 
-##
-## "-graphsearchdelay" を指定すると，Julius は第2パスで
-## グラフ単語のマージによる仮説中断を，最初の文候補が得られるまで
-## 行わないようになる．
-##
-## このオプションは非常に大きいビーム幅を指定してグラフを生成している
-## ときに，性能を少し改善する効果がある．
-##
-#-graphsearchdelay
-#-nographsearchdelay  # this is default (off)
-
-######################################################################
-#### 単語間ショートポーズ
-######################################################################
-##
-## ショートポーズ音響モデルの名前
-##
-#-spmodel "sp"		# ショートポーズ音響モデルの名前
-
-##
-## 単語間のポーズに対応する sp 単語を辞書に自動追加する
-##
-#-iwspword
-#-iwspentry "<UNK> [sp] sp sp"	# 追加される単語エントリのデフォルト値
-
-##
-## 単語末尾にコンテキスト独立なショートポーズを付加（multipath版のみ）
-##
-#-iwsp			# コンテキスト独立な単語間ショートポーズを付与
-#-iwsppenalty 0.0	# ショートポーズへの遷移ペナルティ
-
-######################################################################
-#### ショートポーズセグメンテーション (--enable-sp-segment 時有効)
-######################################################################
-#-spdur 10		# 第１パス sp 継続フレーム数
-			# sp単語が最尤のフレームがこの時間以上継続したら，
-			# 第１パスを中断→第2パス実行
-
-######################################################################
-#### 音声入力ソース
-######################################################################
-## どれかを選んでください（デフォルト：mfcfile）
-#-input mfcfile		# HTK形式のパラメータファイル(MFCC) 
-#-input rawfile		# 音声波形データファイル(フォーマット自動判別)
-			# 形式：WAV(16bit) または
-			#	RAW(16bit(signed short),mono,big-endian) 
-			#	16kHz以外のファイルは -smpFreq で周波数指定
-#-input mic		# マイクから直接入力
-			# デバイス名は環境変数 "AUDIODEV" でも指定可能 (OSS)
-#-input netaudio -NA host:0    # host上のDatLink(NetAudio)から入力
-#-input adinnet -adport portnum # adinnet クライアントからの入力
-#-input stdin		# 標準入力からの入力
-
-#-filelist filename	# 認識対象ファイルのリスト
-
-#-nostrip		# ゼロ続きの無効な入力部の除去をOFFにする
-			# (default: 無効な入力部分は除去される)
-#-zmean			# DC成分の除去を行う (-input mfcfile時無効)
--zmeanframe		# フレーム単位のDC成分除去を行う (HTKと同処理)
-
-######################################################################
-#### 音声録音
-######################################################################
-#-record directory	# 認識した音声データを連続したファイルに自動保存
-
-######################################################################
-#### GMMに基づく入力音検証と棄却
-######################################################################
-#-gmm gmmdefs		# GMM定義ファイル（HTK形式）
-#-gmmnum 10		# mixtureごとに計算する上位ガウス分布数
-#-gmmreject "noise,laugh,cough" # 検証の結果誤入力として棄却すべきGMMのモデル名
-
-######################################################################
-#### 短時間瞬時入力の棄却
-######################################################################
--rejectshort 800	# 指定ミリ秒以下の長さの入力を棄却する
-
-######################################################################
-#### 音声区間検出
-######################################################################
-#-pausesegment		# レベル・零交差による音声区間検出の強制ON
-#-nopausesegment	# レベル・零交差による音声区間検出の強制OFF
-			# （default: mic または adinnet は ON, file は OFF）
-#-lv 2000		# レベルのしきい値 (0-32767)
-#-headmargin 300	# 音声区間開始部のマージン(単位: msec)
-#-tailmargin 400	# 音声区間終了部のマージン(単位: msec)
-#-zc 60			# １秒あたりの零交差数のしきい値
-
-######################################################################
-#### 音響分析
-######################################################################
-
-#-htkconf ConfigFile	# HTK Configファイルを読み込みパラメータをセットする
-
-#-smpFreq 16000		# サンプリング周波数(Hz)
-#-smpPeriod 625		# サンプリング周期(ns) (= 10000000 / smpFreq)
-#-fsize 400		# 窓サイズ(サンプル数)
-#-fshift 160		# フレームシフト幅(サンプル数)
-#-preemph 0.97		# pre-emphasis coef.
-#-fbank 24		# フィルタバンクチャンネル数
-#-ceplif 22		# cepstral liftering coef.
-#-rawe			# use raw energy する
-#-norawe		# use raw energy しない（こちらがデフォルト）
-#-enormal		# normalize log energy する
-#-noenormal		# normalize log energy しない（こちらがデフォルト）
-#-escale 1.0		# scaling log energy for enormal
-#-silfloor 50.0		# energy silence floor in dB for enormal
-#-delwin 2		# デルタウィンドウ幅 (フレーム数)
-#-accwin 2		# デルタデルタウィンドウ幅 (フレー無数)
-#-hifreq -1		# 高域カットオフの周波数(Hz) (-1: disable)
-#-lofreq -1		# 低域カットオフの周波数(Hz) (-1: disable)
-
-######################################################################
-#### Cepstral Mean Normalization (CMN)
-######################################################################
-#-cmnsave filename	# CMNパラメータをファイルに保存（１入力毎に上書き）
-#-cmnload filename	# 開始時に初期CMNパラメータをファイルから読み込む
-#-cmnmapweight 100.0	# MAP-CMNの初期CMNの重み
-#-cmnnoupdate		# 発話開始時の初期CMNを，過去の入力から更新せずに，
-			# -cmnload で読み込んだ初期CMNを保持する
-
-######################################################################
-#### スペクトルサブトラクション (SS)
-######################################################################
-#-sscalc		# 先頭の無音部を利用して SS を行う（ファイル入力のみ）
-#-sscalclen 300		# SSに用いる先頭の無音部の長さ (msec)
-#-ssload filename       # ファイルからノイズスペクトルを読み込む
-#-ssalpha 2.0		# アルファ係数
-#-ssfloor 0.5		# フロアリング係数
-
-######################################################################
-#### Forced alignment
-######################################################################
-#-walign		# 認識結果の単語ごとのアラインメント結果を出力
-#-palign		# 認識結果の音素ごとのアラインメント結果を出力
-#-salign		# 認識結果のHMM状態ごとのアラインメント結果を出力
-
-######################################################################
-#### 単語信頼度計算
-######################################################################
-#-cmalpha 0.05		# スムージング係数を指定
-
-######################################################################
-#### 出力スタイル
-######################################################################
-#-separatescore		# 言語スコアと音響スコアを分けて出力する
-#-progout		# 第1パスで解析途中から漸次的に結果を出力
-#-proginterval 300	# -progout 時の出力のインターバル(単位：msec)
-#-quiet			# 第1パス・第2パスの認識結果のみ出力
-#-demo			# "-progout -quiet" と同じ
-#-debug			# 探索中の内部状態を出力させる（デバッグ用）
-#-charconv from to	# 出力文字コード変換を行う
-			# from, to で指定できるコード名はマニュアルを参照のこと
-
-######################################################################
-#### サーバーモジュールモード
-######################################################################
-#-module		# サーバーモジュールモードで起動
-#-module 5530		# (ポート番号を指定する場合)
-#-outcode WLPSC		# モジュールに出力する情報を選択 (WLPSCwlps)
-
-######################################################################
-#### その他
-######################################################################
-#-help			# ヘルプを出力して終了（jconf内では無効）
-#-setting		# コンパイル時エンジン設定を出力して終了（jconf内無効）
-#-C jconffile		# 他の jconf ファイルを展開
+####
+#### misc.
+####
+#-outprobout filename		# save computed outprob vectors to HTK file (for debug)
 
 ################################################################# end of file
