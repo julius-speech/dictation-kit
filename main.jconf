@@ -95,7 +95,7 @@
 #-rejectshort 0			# reject shorter input (msec)
 #-rejectlong -1			# reject longer input (msec) -1 to disable
 
--lv 500
+-lv 800
 -headmargin 300
 -tailmargin 300
 -rejectshort 800

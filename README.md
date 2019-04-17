@@ -31,8 +31,9 @@ The latest version is 4.5, based on Julius-4.5.  Three setting are provided:
 ## How to run
 
 1. Prepare an audio input on your PC: plug-in your microphone etc.
-2. Execute one of the "run-\*.sh" or "run-\*.bat" script which is suitable for your environment.
-3. If it seems not working, first check your audio volume and noise.  Adequate volume and low noise is ideal.  Second, test device parameters.  It tries to capture audio as 16kHz 16bit monaural.
+2. Check your default audio record device, its recording volume, unmute.  Julius will capture audio at 16kHz 16bit monaural.
+3. (Windows) Prior to run, test audio input with `adintool-gui.bat`.  It shows how your speech is being detected on your machine.  
+4. Execute one of the `run-\*.sh` or `run-\*.bat` script which is suitable for your environment.
 
 ## About models
 
@@ -47,9 +48,10 @@ See [Julius GitHub page](https://github.com/julius-speech/julius) for full docum
 v4.5
 
 - Update to [Julius-4.5](https://github.com/julius-speech/julius/releases/tag/v4.5)
-- Updated speech detection parameters from `-lv 1500` to `-lv 500 -fvad 3` at main.jconf
+- Updated speech detection parameters from `-lv 1500` to `-lv 800 -fvad 3` at main.jconf
 - Set number of threads for DNN to 2 at julius.dnnconf
 - Removed old doc, Japanese text to UTF-8
+- added `adintool-gui.bat` for Windows
 
 v4.4
 
