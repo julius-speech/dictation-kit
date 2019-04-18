@@ -5,3 +5,4 @@ logicalTri* filter=lfs diff=lfs merge=lfs -text
 *.binhmm filter=lfs diff=lfs merge=lfs -text
 *.hmmdefs filter=lfs diff=lfs merge=lfs -text
 binhmm* filter=lfs diff=lfs merge=lfs -text
+hmmdefs* filter=lfs diff=lfs merge=lfs -text
